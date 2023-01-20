@@ -4,6 +4,6 @@ DonFood is an app used on one side by restaurants to post food that they want to
 
 The restaurant and the ong accounts are centralised in a single Account entity in order to optimise information during login and register.
 
-The project is written in Java Spring Boot and it uses JPA and Hybernate for a code first approach.
+The project is written in Java Spring Boot and it uses JPA and Hibernate for a code first approach.
 
 The project has unit tests established for all services.
