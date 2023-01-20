@@ -27,7 +27,7 @@ public class RestaurantService implements IRestaurantService {
     @Override
     public RestaurantResponseDTO register(RestaurantRequestDTO restaurantRequestDTO) {
         AccountRequestDTO accountRequestDTO = restaurantRequestDTO.getAccountRequestDTO();
-        if(accountRequestDTO.getPasswordDecoded() == null)
+        if(accountRequestDTO.getPasswordDecoded() == null || accountRequestDTO.getPasswordDecoded().equals(""))
             throw new IllegalArgumentException("Password cannot be empty");
         accountRequestDTO.setAccountVerified(false);
         accountRequestDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));

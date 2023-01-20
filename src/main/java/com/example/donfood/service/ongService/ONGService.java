@@ -29,7 +29,7 @@ public class ONGService implements IONGService {
     public ONGResponseDTO register(ONGRequestDTO ongRequestDTO) {
 
         AccountRequestDTO accountRequestDTO = ongRequestDTO.getAccountRequestDTO();
-        if(accountRequestDTO.getPasswordDecoded() == null)
+        if(accountRequestDTO.getPasswordDecoded() == null || accountRequestDTO.getPasswordDecoded().equals(""))
             throw new IllegalArgumentException("Password cannot be empty");
         accountRequestDTO.setAccountVerified(false);
         accountRequestDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));

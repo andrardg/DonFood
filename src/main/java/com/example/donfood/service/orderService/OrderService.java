@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService implements IOrderService{
@@ -77,10 +78,11 @@ public class OrderService implements IOrderService{
             dbOrder.setStatus(orderUpdateDTO.getStatus());
         if(orderUpdateDTO.getQuantitySelected() != null && orderUpdateDTO.getQuantitySelected() > dbOrder.getQuantitySelected()){
 
-            Donation donation = donationRepository.findById(dbOrder.getDonation().getDonationId()).get();
-            if(donation == null)
+            Optional<Donation> donationOpt = donationRepository.findById(dbOrder.getDonation().getDonationId());
+            if(donationOpt.isEmpty())
                 throw new ResourceNotFoundException("No donation with that id.");
 
+            Donation donation = donationOpt.get();
             double quantity = donation.getQuantity();
             List<Order> orders = orderRepository.findAll();
             for(Order x : orders)
