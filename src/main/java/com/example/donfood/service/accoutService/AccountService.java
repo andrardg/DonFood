@@ -48,7 +48,7 @@ public class AccountService implements IAccountService {
             throw new IllegalArgumentException("Email and password cannot be null");
 
         Account dbAccount = accountRepository.findByEmail(accountRequestDTO.getEmail());
-        if (dbAccount.getEmail() == null)
+        if (dbAccount == null)
             throw new ResourceNotFoundException("Email or password incorrect");
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
