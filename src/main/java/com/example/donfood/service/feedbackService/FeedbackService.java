@@ -70,6 +70,6 @@ public class FeedbackService implements IFeedbackService{
     public void delete(Integer id) {
         if(!feedbackRepository.existsById(id))
             throw new ResourceNotFoundException("No Feedback with that id.");
-        feedbackRepository.deleteById(id);
+        feedbackRepository.deleteViaId(id);
     }
 }
