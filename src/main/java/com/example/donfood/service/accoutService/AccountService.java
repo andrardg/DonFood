@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Optional;
-
 @Service
 public class AccountService implements IAccountService {
 

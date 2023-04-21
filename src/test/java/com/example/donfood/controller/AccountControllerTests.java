@@ -1,7 +1,6 @@
 package com.example.donfood.controller;
 
 import com.example.donfood.dto.accountDTO.AccountRequestDTO;
-import com.example.donfood.dto.ongDTO.ONGRequestDTO;
 import com.example.donfood.dto.ongDTO.ONGResponseDTO;
 import com.example.donfood.dto.restaurantDTO.RestaurantResponseDTO;
 import com.example.donfood.model.Account;

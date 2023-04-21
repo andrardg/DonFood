@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 public class DataLoader implements CommandLineRunner {
 
     private IAccountRepository accountRepository;
-    private PasswordEncoder passwordEncoder;
-
 
     private void loadUserData() {
         if (accountRepository.count() == 0){
@@ -36,7 +34,6 @@ public class DataLoader implements CommandLineRunner {
             accountRepository.save(admin);
         }
     }
-
 
     @Override
     public void run(String... args) throws Exception {

@@ -80,7 +80,7 @@ public class ONGService implements IONGService {
             throw new ResourceNotFoundException("No ONG with id " + ongId);
         ONG ong = ongRepository.getReferenceById(ongId);
 
-        if(ong.getFavRestaurants().stream().filter(x -> Objects.equals(x.getRestaurantId(), restaurantId)).collect(Collectors.toList()).size() > 0)
+        if(ong.getFavRestaurants().stream().filter(x -> Objects.equals(x.getRestaurantId(), restaurantId)).count() > 0)
             throw new EntityExistsException("The ONG with id " + ongId + " already has added to favorites the restaurant with id " + restaurantId);
 
         if(!restaurantRepository.existsById(restaurantId))

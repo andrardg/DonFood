@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ONGMapper {
-    private static AccountMapper accountMapper;
-
     public static ONG requestToONG(ONGRequestDTO ongRequestDTO){
 
         ModelMapper modelMapper = new ModelMapper();

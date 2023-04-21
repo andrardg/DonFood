@@ -2,7 +2,6 @@ package com.example.donfood.dto.accountDTO;
 
 import com.example.donfood.model.enums.Right;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter

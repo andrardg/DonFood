@@ -3,7 +3,6 @@ package com.example.donfood.service.security;
 import com.example.donfood.model.Account;
 import com.example.donfood.model.enums.Right;
 import com.example.donfood.repository.IAccountRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
