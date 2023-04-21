@@ -22,14 +22,17 @@ public class ONG {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="email", nullable = false)
+    @NotNull
     //@OnDelete(action = OnDeleteAction.CASCADE)
     private Account accountONG;
 
     @Column(nullable = false)
+    @NotNull
     private String address;
 
     @Min(value = 0, message = "the nr of people the ong helps cannot be below 0")
     @Column(nullable = false)
+    @NotNull
     private Integer nrPeopleHelping;
 
 
@@ -39,7 +42,7 @@ public class ONG {
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
-    //many to many with favorite restaurants
+    //ongs add restaurants to favorites
     @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "favorite",
             joinColumns = {@JoinColumn (name = "ong_id")},

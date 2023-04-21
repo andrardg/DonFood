@@ -2,6 +2,7 @@ package com.example.donfood.model;
 import com.example.donfood.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class Order {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "donation_id", nullable = false)
+    @NotNull
     private Donation donation;
 
     //@NotNull
@@ -36,16 +38,20 @@ public class Order {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "ong_id", nullable = false)
+    @NotNull
     private ONG ong;
 
     @Min(value = 0, message = "quantity cannot be below 0")
     @Column(nullable = false)
+    @NotNull
     private Double quantitySelected;
 
     @Column(nullable = false)
+    @NotNull
     private Status status;
 
     @Column(nullable = false)
+    @NotNull
     private Timestamp createdAt;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)

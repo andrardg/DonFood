@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarLeft">
+                <ul class="navbar-nav ms-auto topnav">
+                    <a class="nav-link" th:href="@{'/api'}"> <i class="fas fa-home mx-1"></i>  </a>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/api/restaurant'}">Restaurants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/api/ong'}">ONGs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/api/donation'}">Donations</a>
+                    </li>
+                </ul>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto topnav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                    <li class="nav-item" th:if="${#authentication !=null && #authentication.getPrincipal() != 'anonymousUser'}">
+                        <a class="nav-link" th:href="@{'/profile'}"> <i class="fas fa-user mx-1"></i>  </a>
+                    </li>
+                    <li class="nav-item" th:if="${#authentication !=null && #authentication.getPrincipal() != 'anonymousUser'}">
+                        <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/logout'}">Sign Out </a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authentication ==null || #authentication.getPrincipal() == 'anonymousUser'}">
+                        <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/login'}" >Sign In</a>
+                    </li>&nbsp;
+                    <li class="nav-item" th:if="${#authentication ==null || #authentication.getPrincipal() == 'anonymousUser'}">
+                        <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/api/registerRestaurant'}" >Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+<body>
+<br><br><br>
+<h1 th:align="center">403 - Access denied</h1>
+
+</body>
+</html>

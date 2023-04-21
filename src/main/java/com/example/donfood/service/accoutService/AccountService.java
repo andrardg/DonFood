@@ -10,6 +10,10 @@ import com.example.donfood.repository.IAccountRepository;
 import com.example.donfood.repository.IONGRepository;
 import com.example.donfood.repository.IRestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,11 +70,11 @@ public class AccountService implements IAccountService {
             throw new ResourceNotFoundException("Account was not found by email");
         // email is not editable
 
-        if(accountUpdateDTO.getPasswordDecoded() != null){
+        if(!accountUpdateDTO.getPasswordDecoded().equals("")){
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             dbAccount.setPasswordEncoded(bCryptPasswordEncoder.encode(accountUpdateDTO.getPasswordDecoded()));
         }
-        if(accountUpdateDTO.getFullName() != null)
+        if(!accountUpdateDTO.getFullName().equals(""))
             dbAccount.setFullName(accountUpdateDTO.getFullName());
 
         if(accountUpdateDTO.getAccessRights() != null)
@@ -118,4 +122,9 @@ public class AccountService implements IAccountService {
 //            throw new ResourceNotFoundException("Account was not found by name");
 //        return dbAccount.get();
 //    }
+    @Bean
+    public boolean isAuthenticated(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
 }

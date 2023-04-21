@@ -1,17 +1,20 @@
 package com.example.donfood.dto.accountDTO;
 
 import com.example.donfood.model.enums.Right;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountUpdateDTO {
 
     private String passwordDecoded;
 
+    @NotEmpty
     private String fullName;
 
     private Right accessRights;

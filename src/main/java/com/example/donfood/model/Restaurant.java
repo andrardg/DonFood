@@ -2,6 +2,7 @@ package com.example.donfood.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -25,6 +26,7 @@ public class Restaurant {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="email", nullable = false)
+    @NotNull
     private Account accountRest;
 
     private String fiscalIdCode;
@@ -40,7 +42,7 @@ public class Restaurant {
     @JsonIgnore
     private List<Donation> donations = new ArrayList<>();
 
-    //many to many with favorite restaurants
+    //ongs add restaurants to favorites
     @ManyToMany(fetch=FetchType.LAZY,  cascade = CascadeType.ALL, mappedBy = "favRestaurants")
     private List<ONG> favOngs = new ArrayList<>();
 }

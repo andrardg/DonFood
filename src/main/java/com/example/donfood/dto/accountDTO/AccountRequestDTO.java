@@ -2,14 +2,15 @@ package com.example.donfood.dto.accountDTO;
 
 import com.example.donfood.model.enums.Right;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import java.sql.Timestamp;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountRequestDTO {
 
     @NotNull

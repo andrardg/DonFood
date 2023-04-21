@@ -27,17 +27,21 @@ public class Feedback {
     @OneToOne
     @JsonIgnore
     @JoinColumn(name="order_id", nullable = false, unique = true)
+    @NotNull
     private Order order;
 
     @Column(nullable = false)
+    @NotNull
     private String comment;
 
     @Max(value = 5, message = "rating cannot be greater than 5")
     @Min(value = 1, message = "rating cannot be below 0")
     @Column(nullable = false)
+    @NotNull
     private Integer rating;
 
     @Column(nullable = false)
+    @NotNull
     private Timestamp createdAt;
 
 }

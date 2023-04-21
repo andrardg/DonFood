@@ -11,6 +11,8 @@ import java.util.List;
 public interface IONGService {
     ONGResponseDTO register(ONGRequestDTO ongRequestDTO);
     ONGResponseDTO update(Integer id, ONGUpdateDTO ongUpdateDTO);
+    ONGResponseDTO addFavRestaurant(Integer ongId, Integer restaurantId);
+    ONGResponseDTO removeFavRestaurant(Integer ongId, Integer restaurantId);
     void delete(Integer id);
     List<ONGResponseDTO> getAll();
     ONGResponseDTO getById(Integer id);

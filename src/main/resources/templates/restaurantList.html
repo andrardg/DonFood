@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>DonFood</title>
+
+
+
+  <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/webjars/font-awesome/6.2.0/css/all.min.css"/>
+
+
+
+
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="collapse navbar-collapse" id="navbarLeft">
+        <ul class="navbar-nav ms-auto topnav">
+          <a class="nav-link" th:href="@{'/api'}"> <i class="fas fa-home mx-1"></i>  </a>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{'/api/restaurant'}">Restaurants</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{'/api/ong'}">ONGs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{'/api/donation'}">Donations</a>
+          </li>
+        </ul>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto topnav">
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+          <li class="nav-item" th:if="${#authentication !=null && #authentication.getPrincipal() != 'anonymousUser'}">
+            <a class="nav-link" th:href="@{'/profile'}"> <i class="fas fa-user mx-1"></i>  </a>
+          </li>
+          <li class="nav-item" th:if="${#authentication !=null && #authentication.getPrincipal() != 'anonymousUser'}">
+            <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/logout'}">Sign Out </a>
+          </li>
+
+          <li class="nav-item" th:if="${#authentication ==null || #authentication.getPrincipal() == 'anonymousUser'}">
+            <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/login'}" >Sign In</a>
+          </li>&nbsp;
+          <li class="nav-item" th:if="${#authentication ==null || #authentication.getPrincipal() == 'anonymousUser'}">
+            <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/api/registerRestaurant'}" >Register</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</head>
+<body>
+<div class="container" style="margin-top: 50px">
+  <h2 class="nav-item">
+    <a class="navbar-text" th:text="Restaurants"></a>
+    <th></th>
+  </h2>
+  <table class="table table-hover ">
+    <thead class="thead-inverse">
+    <tr>
+      <th>ID</th>
+      <th>Restaurant Name</th>
+      <th>Email</th>
+      <th>Fiscal ID Score</th>
+      <th>Social Score</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tr th:each="restaurant, stat : ${restaurants}"
+        th:class="${stat.odd}? 'table-light':'table-dark'">
+      <td th:text="${restaurant.restaurantId}">ID</td>
+      <td th:text="${restaurant.account.fullName}">Restaurant Name</td>
+      <td th:text="${restaurant.account.email}">Email</td>
+      <td th:text="${restaurant.fiscalIdCode}">Fiscal ID Score</td>
+      <td th:text="${restaurant.socialScore}">Social Score</td>
+      <td><a href="#" th:href="@{'/api/restaurant/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-circle-info"></i></a></td>
+      <td><a href="#" th:href="@{'/api/restaurant/edit/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-pen"></i></a></td>
+      <td><a href="#" th:href="@{'/api/restaurant/delete/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-trash"></i></a></td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

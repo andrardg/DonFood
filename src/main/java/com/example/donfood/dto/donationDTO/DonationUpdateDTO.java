@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,7 +17,7 @@ import java.sql.Timestamp;
 public class DonationUpdateDTO {
     private Integer restaurantId;
 
-    private Timestamp expirationDate;
+    private Date expirationDate;
 
     private Double quantity;
 
@@ -24,7 +27,7 @@ public class DonationUpdateDTO {
 
     private String pickUpLocation;
 
-    private Time pickUpTime;
+    private Date pickUpTime;
 
     private String photo;
 }

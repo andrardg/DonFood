@@ -14,5 +14,6 @@ public interface IDonationService {
     Donation getById(Integer id);
     List<Donation> getByQuantityAndProduct(Double quantity, String product);
     Donation update(Integer id, DonationUpdateDTO donationUpdateDTO);
+    Donation update(Integer id, Donation donation);
     void delete(Integer id);
 }

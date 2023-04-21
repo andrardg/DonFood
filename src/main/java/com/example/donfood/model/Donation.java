@@ -4,12 +4,19 @@ import com.example.donfood.model.enums.Measure;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,40 +32,51 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer donationId;
 
-    //@NotNull
+    //@NotEmpty
     //@Column(name = "restaurantId")
     //private Long restaurantId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @NotNull
     private Restaurant restaurant;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
-    private Timestamp expirationDate;
+    @NotNull
+    private Date expirationDate;
 
     @Column(nullable = false)
     @DecimalMin(value = "0.1", message = "the quantity cannot be below 0")
+    @NotNull
     private Double quantity;
 
     @Column(nullable = false)
+    @NotNull
     private Measure quantityMeasure;
 
     @Column(nullable = false)
+    @NotEmpty
     private String product;
 
     @Column(nullable = false)
+    @NotEmpty
     private String pickUpLocation;
 
+    @DateTimeFormat(pattern = "HH:mm")
     @Column(nullable = false)
-    private Time pickUpTime;
+    @NotNull
+    private Date pickUpTime;
 
     private String photo;
 
     @Column(nullable = false)
+    @NotNull
     private Timestamp createdAt;
 
     @Column(nullable = false)
+    @NotNull
     private Timestamp modifiedAt;
 
 

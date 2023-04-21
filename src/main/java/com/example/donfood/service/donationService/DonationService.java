@@ -95,7 +95,14 @@ public class DonationService implements IDonationService{
         donationRepository.save(dbDonation);
         return dbDonation;
     }
-
+    @Override
+    public Donation update(Integer id, Donation donation) {
+        if(donationRepository.existsById(id) == false)
+            throw new ResourceNotFoundException("Donation was not found by id");
+        donation.setModifiedAt(Timestamp.valueOf(LocalDateTime.now()));
+        donationRepository.save(donation);
+        return donation;
+    }
     @Override
     public void delete(Integer id) {
         if (id == null)

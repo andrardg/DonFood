@@ -2,6 +2,7 @@ package com.example.donfood.mapper;
 
 import com.example.donfood.dto.restaurantDTO.RestaurantRequestDTO;
 import com.example.donfood.dto.restaurantDTO.RestaurantResponseDTO;
+import com.example.donfood.dto.restaurantDTO.RestaurantUpdateDTO;
 import com.example.donfood.model.Restaurant;
 import org.modelmapper.ModelMapper;
 
@@ -28,5 +29,11 @@ public class RestaurantMapper {
         return restaurants.stream()
                 .map(RestaurantMapper::restaurantToResponse)
                 .collect(Collectors.toList());
+    }
+    public static RestaurantUpdateDTO responseToUpdate(RestaurantResponseDTO restaurantResponseDTO){
+        ModelMapper modelMapper = new ModelMapper();
+        RestaurantUpdateDTO restaurantUpdateDTO = modelMapper.map(restaurantResponseDTO, RestaurantUpdateDTO.class);
+        restaurantUpdateDTO.setAccountUpdateDTO(AccountMapper.accountToUpdate(restaurantResponseDTO.getAccount()));
+        return restaurantUpdateDTO;
     }
 }

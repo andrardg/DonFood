@@ -7,15 +7,20 @@ import com.example.donfood.dto.ongDTO.ONGUpdateDTO;
 import com.example.donfood.exception.ResourceNotFoundException;
 import com.example.donfood.mapper.ONGMapper;
 import com.example.donfood.model.ONG;
+import com.example.donfood.model.Restaurant;
 import com.example.donfood.model.enums.Right;
 import com.example.donfood.repository.IONGRepository;
+import com.example.donfood.repository.IRestaurantRepository;
 import com.example.donfood.service.accoutService.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ONGService implements IONGService {
@@ -24,6 +29,8 @@ public class ONGService implements IONGService {
 
     @Autowired
     private IONGRepository ongRepository;
+    @Autowired
+    private IRestaurantRepository restaurantRepository;
 
     @Override
     public ONGResponseDTO register(ONGRequestDTO ongRequestDTO) {
@@ -63,6 +70,46 @@ public class ONGService implements IONGService {
 
         ongRepository.save(dbOng);
         ONGResponseDTO ongResponseDTO = ONGMapper.ONGToResponse(dbOng);
+
+        return ongResponseDTO;
+    }
+
+    @Override
+    public ONGResponseDTO addFavRestaurant(Integer ongId, Integer restaurantId) {
+        if(!ongRepository.existsById(ongId))
+            throw new ResourceNotFoundException("No ONG with id " + ongId);
+        ONG ong = ongRepository.getReferenceById(ongId);
+
+        if(ong.getFavRestaurants().stream().filter(x -> Objects.equals(x.getRestaurantId(), restaurantId)).collect(Collectors.toList()).size() > 0)
+            throw new EntityExistsException("The ONG with id " + ongId + " already has added to favorites the restaurant with id " + restaurantId);
+
+        if(!restaurantRepository.existsById(restaurantId))
+            throw new ResourceNotFoundException("No restaurant with id " + restaurantId);
+        Restaurant restaurant = restaurantRepository.getReferenceById(restaurantId);
+
+        ong.getFavRestaurants().add(restaurant);
+        ongRepository.save(ong);
+        ONGResponseDTO ongResponseDTO = ONGMapper.ONGToResponse(ong);
+
+        return ongResponseDTO;
+    }
+
+    @Override
+    public ONGResponseDTO removeFavRestaurant(Integer ongId, Integer restaurantId) {
+        if(!ongRepository.existsById(ongId))
+            throw new ResourceNotFoundException("No ONG with id " + ongId);
+        ONG ong = ongRepository.getReferenceById(ongId);
+
+        if(ong.getFavRestaurants().stream().filter(x -> Objects.equals(x.getRestaurantId(), restaurantId)).collect(Collectors.toList()).size() == 0)
+            throw new ResourceNotFoundException("The ONG with id " + ongId + " has no favorite restaurant with id " + restaurantId);
+
+        if(!restaurantRepository.existsById(restaurantId))
+            throw new ResourceNotFoundException("No restaurant with id " + restaurantId);
+        Restaurant restaurant = restaurantRepository.getReferenceById(restaurantId);
+
+        ong.getFavRestaurants().remove(restaurant);
+        ongRepository.save(ong);
+        ONGResponseDTO ongResponseDTO = ONGMapper.ONGToResponse(ong);
 
         return ongResponseDTO;
     }

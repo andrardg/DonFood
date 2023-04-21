@@ -15,12 +15,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -87,9 +90,13 @@ public class AccountControllerTests {
                 .passwordDecoded("password100")
                 .build();
         Account account = Account.builder().build();
+        BindingResult result = mock(BindingResult.class);
+
         when(accountService.login(any())).thenReturn(account);
-        ResponseEntity<Account> response = accountController.login(accountRequestDTO);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
+        when(result.hasErrors()).thenReturn(false);
+
+        ModelAndView response = accountController.login(accountRequestDTO, result);
+        assertNotNull(response.getModel());
+        //assertNotNull(response.getBody());
     }
 }
