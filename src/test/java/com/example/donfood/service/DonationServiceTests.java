@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -27,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("h2")
 public class DonationServiceTests {
 
     @InjectMocks
@@ -140,9 +142,19 @@ public class DonationServiceTests {
 
     @Test
     void updateIdNotFound(){
-        donation = new Donation();
-        when(donationRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(ResourceNotFoundException.class, ()-> donationService.update(1, any()));
+        Donation donation = Donation.builder()
+                .donationId(1)
+                .product("test")
+                .quantity(1.0)
+                .quantityMeasure(Measure.KG)
+                .expirationDate(Timestamp.valueOf(LocalDateTime.now()))
+                .pickUpLocation("1")
+                .pickUpTime(new Time(0))
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .modifiedAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+        when(donationRepository.existsById(1)).thenReturn(false);
+        assertThrows(ResourceNotFoundException.class, ()-> donationService.update(1, donation));
     }
 
     @Test

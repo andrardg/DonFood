@@ -30,7 +30,7 @@ public class Donation {
     //@Column(name = "restaurantId")
     //private Long restaurantId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull

@@ -9,6 +9,7 @@ import com.example.donfood.model.enums.Right;
 import com.example.donfood.repository.IAccountRepository;
 import com.example.donfood.repository.IONGRepository;
 import com.example.donfood.repository.IRestaurantRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 @Service
+@Slf4j
 public class AccountService implements IAccountService {
 
     @Autowired
@@ -41,6 +43,7 @@ public class AccountService implements IAccountService {
         accountRequestDTO.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         accountRequestDTO.setAccessRights(right);
         Account account = AccountMapper.requestToAccount(accountRequestDTO);
+        log.info(account.toString());
         return account;
     }
 
@@ -80,7 +83,7 @@ public class AccountService implements IAccountService {
 
         if(accountUpdateDTO.getAccountVerified() != null)
             dbAccount.setAccountVerified(accountUpdateDTO.getAccountVerified());
-
+        log.info(dbAccount.toString());
         return dbAccount;
     }
 
@@ -97,7 +100,7 @@ public class AccountService implements IAccountService {
 
         if(restaurantRepository.existsByAccountRest(account))
             restaurantRepository.deleteByAccountRest(account);
-
+        log.info("Deleting account");
         accountRepository.deleteByEmail(email);
     }
 

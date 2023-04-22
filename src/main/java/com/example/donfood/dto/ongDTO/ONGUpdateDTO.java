@@ -1,13 +1,13 @@
 package com.example.donfood.dto.ongDTO;
 
 import com.example.donfood.dto.accountDTO.AccountUpdateDTO;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ONGUpdateDTO {
 
     private Integer ongId;

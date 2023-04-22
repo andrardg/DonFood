@@ -15,5 +15,7 @@ public interface IRestaurantService {
     List<RestaurantResponseDTO> getAll();
     RestaurantResponseDTO getById(Integer id);
     List<RestaurantResponseDTO> getByFullName(String fullname);
+    RestaurantResponseDTO addFav(Integer id, String ongEmail);
+    RestaurantResponseDTO removeFav(Integer id, String ongEmail);
 
 }

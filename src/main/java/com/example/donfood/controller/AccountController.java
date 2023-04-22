@@ -35,12 +35,12 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/registerONG")
+    @PostMapping("/api/registerONG")
     public ResponseEntity<ONGResponseDTO> registerONG(@RequestBody ONGRequestDTO ongRequestDTO){
         return ResponseEntity.ok().body(ongService.register(ongRequestDTO));
     }
 
-    @PostMapping("/registerRestaurant")
+    @PostMapping("/api/registerRestaurant")
     public ResponseEntity<RestaurantResponseDTO> registerRestaurant(@RequestBody RestaurantRequestDTO restaurantRequestDTO){
         return ResponseEntity.ok().body(restaurantService.register(restaurantRequestDTO));
     }

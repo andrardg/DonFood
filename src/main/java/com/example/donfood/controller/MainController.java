@@ -15,4 +15,8 @@ public class MainController {
 
     @GetMapping("/api/access_denied")
     public ModelAndView accessDeniedPage(){ return new ModelAndView("accessDenied"); }
+
+
+    @GetMapping("/profile")
+    public ModelAndView profilePage(){ return new ModelAndView("profile"); }
 }

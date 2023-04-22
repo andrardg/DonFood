@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface IONGRepository extends JpaRepository<ONG, Integer> {
     List<ONG> findByAccountONGFullName(String fullName);
+    ONG findByAccountONGEmail(String email);
+    boolean existsByAccountONG_Email(String email);
     ONG findByOngId(Integer id);
     boolean existsByAccountONG(Account account);
     @Transactional

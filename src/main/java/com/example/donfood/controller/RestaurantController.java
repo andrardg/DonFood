@@ -73,6 +73,22 @@ public class RestaurantController {
         return modelAndView;
     }
 
+    @PostMapping("/{id}/{ongEmail}")
+    public ModelAndView addFav(@PathVariable Integer id, @PathVariable String ongEmail){
+        RestaurantResponseDTO restaurantResponseDTO = restaurantService.addFav(id, ongEmail);
+        ModelAndView modelAndView = new ModelAndView("restaurantDetails");
+        modelAndView.addObject("restaurant", restaurantResponseDTO);
+        return modelAndView;
+    }
+
+    @DeleteMapping("/{id}/{ongEmail}")
+    public ModelAndView removeFav(@PathVariable Integer id, @PathVariable String ongEmail){
+        RestaurantResponseDTO restaurantResponseDTO = restaurantService.removeFav(id, ongEmail);
+        ModelAndView modelAndView = new ModelAndView("restaurantDetails");
+        modelAndView.addObject("restaurant", restaurantResponseDTO);
+        return modelAndView;
+    }
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Integer id){
         restaurantService.delete(id);

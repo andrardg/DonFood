@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/api/donation")
@@ -25,13 +30,26 @@ public class DonationController {
     private DonationService donationService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     //public ResponseEntity<List<Donation>> getAll() {
-    public ModelAndView getAll(){
+    public ModelAndView getAll(@RequestParam("page") Optional<Integer> page,
+                               @RequestParam("size") Optional<Integer> size){
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+        Page<Donation> donationPage = donationService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+
         ModelAndView modelAndView = new ModelAndView("donationList");
         List<Donation> donations = donationService.getAll();
         modelAndView.addObject("donations",donations);
+        modelAndView.addObject("donationPage", donationPage);
         modelAndView.addObject("portion", Measure.portion);
+        int totalPages = donationPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }
         return modelAndView;
         //return ResponseEntity.ok().body(donationService.getAll());
     }
@@ -89,10 +107,10 @@ public class DonationController {
 //        return ResponseEntity.ok().body(donationService.update(id, donationUpdateDTO));
 //    }
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/delete/{id}")
     public void delete(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         donationService.delete(id);
-        response.sendRedirect("/api/donations");
+        response.sendRedirect("/api/donation");
     }
 
 //    @GetMapping("/getimage/{id}")

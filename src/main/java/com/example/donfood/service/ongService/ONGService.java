@@ -12,6 +12,7 @@ import com.example.donfood.model.enums.Right;
 import com.example.donfood.repository.IONGRepository;
 import com.example.donfood.repository.IRestaurantRepository;
 import com.example.donfood.service.accoutService.IAccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ONGService implements IONGService {
     @Autowired
     private IAccountService accountService;
@@ -46,7 +48,7 @@ public class ONGService implements IONGService {
         ONG ong = ONGMapper.requestToONG(ongRequestDTO);
         ong.setAccountONG(accountService.register(Right.ONG, ongRequestDTO.getAccountRequestDTO()));
         ongRepository.save(ong);
-
+        log.info(ong.toString());
         ONGResponseDTO ongResponseDTO = ONGMapper.ONGToResponse(ong);
         return ongResponseDTO;
     }
@@ -68,6 +70,7 @@ public class ONGService implements IONGService {
         if(ongUpdateDTO.getAccountUpdateDTO() != null)
             dbOng.setAccountONG(accountService.update(dbOng.getAccountONG().getEmail(), ongUpdateDTO.getAccountUpdateDTO()));
 
+        log.info(dbOng.toString());
         ongRepository.save(dbOng);
         ONGResponseDTO ongResponseDTO = ONGMapper.ONGToResponse(dbOng);
 
@@ -88,6 +91,7 @@ public class ONGService implements IONGService {
         Restaurant restaurant = restaurantRepository.getReferenceById(restaurantId);
 
         ong.getFavRestaurants().add(restaurant);
+        log.info(ong.toString());
         ongRepository.save(ong);
         ONGResponseDTO ongResponseDTO = ONGMapper.ONGToResponse(ong);
 

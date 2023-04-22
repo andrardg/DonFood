@@ -43,4 +43,14 @@ public class Restaurant {
     //ongs add restaurants to favorites
     @ManyToMany(fetch=FetchType.LAZY,  cascade = CascadeType.ALL, mappedBy = "favRestaurants")
     private List<ONG> favOngs = new ArrayList<>();
+
+    public void addFav(ONG ong){
+        this.favOngs.add(ong);
+        ong.getFavRestaurants().add(this);
+    }
+
+    public void removeFav(ONG ong){
+        this.favOngs.remove(ong);
+        ong.getFavRestaurants().remove(this);
+    }
 }

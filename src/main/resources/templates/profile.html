@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DonFood</title>
-
+  <title>Login</title>
 
 
   <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
@@ -57,49 +56,17 @@
       </div>
     </nav>
   </div>
-</head>
 <body>
-<div class="container" style="margin-top: 50px">
-  <h2 class="nav-item">
-    <a class="navbar-text" th:text="Donations"></a>
-    <th></th>
-  </h2>
-  <table class="table table-hover ">
-    <thead class="thead-inverse">
-    <tr>
-      <th>ID</th>
-      <th>Product</th>
-      <th>Restaurant Name</th>
-      <th>Expiration Date</th>
-      <th>Quantity</th>
-      <th>Pickup Location</th>
-      <th>Pickup Time</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tr th:each="donation, stat : ${donationPage.content}"
-        th:class="${stat.odd}? 'table-light':'table-dark'">
-      <td th:text="${donation.donationId}">ID</td>
-      <td th:text="${donation.product}">Product</td>
-      <td th:text="${donation.restaurant.accountRest.fullName}">Restaurant Name</td>
-      <td th:text="${#dates.format(donation.expirationDate, 'yyyy-MM-dd')}">Expiration Date</td>
-      <td th:text="${(donation.quantityMeasure == portion && donation.quantity>=2.0) ?(donation.quantity+' '+ donation.quantityMeasure + 's'): donation.quantity+' '+ donation.quantityMeasure}">Quantity</td>
-      <td th:text="${donation.pickUpLocation}">Pickup Location</td>
-      <td th:text="${#dates.format(donation.pickUpTime, 'HH:mm')}">Pickup Time</td>
-      <td><a href="#" th:href="@{'/api/donation/' + ${donation.donationId}}"><i class="fa-solid fa-circle-info"></i></a></td>
-      <td><a href="#" th:href="@{'/api/donation/edit/' + ${donation.donationId}}"><i class="fa-solid fa-pen"></i></a></td>
-      <td><a href="#" th:href="@{'/api/donation/delete/' + ${donation.donationId}}"><i class="fa-solid fa-trash"></i></a></td>
-    </tr>
-  </table>
-</div>
-
-<div th:if="${donationPage.totalPages > 0}" class="row" th:each="pageNumber : ${pageNumbers}">
-  <div class="col-md-1">
-    <a th:href="@{/api/donation(size=${donationPage.size}, page=${pageNumber})}" th:align="center"> [[${pageNumber}]]</a>
-  </div>
-</div>
-
+<br><br><br>
+<h3 th:align="center">User email</h3>
+<p th:align="center" th:text="${#authentication.getName()}"></p>
+<br>
+<h3 th:align="center">User authorities</h3>
+<p th:align="center"  th:each="authority : ${#authentication.getAuthorities()}">
+  <span th:switch="${authority.getAuthority().startsWith('ROLE_')}">
+    <i th:case="true" th:text="${authority.getAuthority().replaceFirst('ROLE_', '')}"></i>
+    <i th:case="false" th:text="${authority.getAuthority()}"></i>
+  </span>
+</p>
 </body>
 </html>

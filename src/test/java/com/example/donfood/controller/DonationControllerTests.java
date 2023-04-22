@@ -7,24 +7,37 @@ import com.example.donfood.model.Donation;
 import com.example.donfood.model.enums.Measure;
 import com.example.donfood.service.donationService.DonationService;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("h2")
 public class DonationControllerTests {
 
     @InjectMocks
@@ -35,8 +48,13 @@ public class DonationControllerTests {
 
     @Test
     public void getAllHappyFlow(){
+        Page<Donation> donationPage
+                = new PageImpl<Donation>(Collections.emptyList(), PageRequest.of(1, 5), 5);
+
         when(donationService.getAll()).thenReturn(Collections.emptyList());
-        donationController.getAll();
+        when(donationService.findPaginated(PageRequest.of(0, 5))).thenReturn(donationPage);
+        ModelAndView model = donationController.getAll(Optional.of(1), Optional.of(5));
+        assertEquals(model.getModel().get("donationPage"), donationPage);
     }
 
     @Test
@@ -54,9 +72,8 @@ public class DonationControllerTests {
                 .build();
         when(donationService.getById(1)).thenReturn(donation);
 
-        ResponseEntity<Donation> response = donationController.getById(1);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
+        ModelAndView model = donationController.getById(1);
+        assertNotNull(model.getModel().get("donation"));
     }
 
     @Test
@@ -137,7 +154,8 @@ public class DonationControllerTests {
     @Test
     public void updateHappyFlow(){
         Integer id = 1;
-        DonationUpdateDTO donationUpdateDTO = DonationUpdateDTO.builder()
+        Donation donationUpdateDTO = Donation.builder()
+                .donationId(1)
                 .product("test")
                 .quantity(1.0)
                 .quantityMeasure(Measure.KG)
@@ -157,17 +175,18 @@ public class DonationControllerTests {
                 .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                 .modifiedAt(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
-
+        BindingResult result = mock(BindingResult.class);
+        when(result.hasErrors()).thenReturn(false);
         when(donationService.update(id, donationUpdateDTO)).thenReturn(donation);
-        ResponseEntity<Donation> response = donationController.update(id, donationUpdateDTO);
+        ModelAndView model = donationController.update(id, donationUpdateDTO, result);
 
-        assertNotNull(response);
-        assertNotNull(response.getBody());
+        assertNotNull(model.getModel().get("donation"));
     }
 
     @Test
-    public void deleteHappyFlow(){
+    public void deleteHappyFlow() throws IOException {
         Integer id = 1;
-        donationController.delete(id);
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        donationController.delete(id, response);
     }
 }
