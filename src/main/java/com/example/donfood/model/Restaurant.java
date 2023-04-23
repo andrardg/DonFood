@@ -36,7 +36,7 @@ public class Restaurant {
 
 
     //one to many with donation
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Donation> donations = new ArrayList<>();
 

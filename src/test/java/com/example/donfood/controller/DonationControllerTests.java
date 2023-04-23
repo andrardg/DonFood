@@ -1,24 +1,27 @@
 package com.example.donfood.controller;
 
 import com.example.donfood.dto.donationDTO.DonationRequestDTO;
-import com.example.donfood.dto.donationDTO.DonationUpdateDTO;
-import com.example.donfood.dto.restaurantDTO.RestaurantResponseDTO;
 import com.example.donfood.model.Donation;
 import com.example.donfood.model.enums.Measure;
 import com.example.donfood.service.donationService.DonationService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,9 +38,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("h2")
+@AutoConfigureMockMvc
+@SpringBootTest
 public class DonationControllerTests {
 
     @InjectMocks
@@ -46,8 +55,12 @@ public class DonationControllerTests {
     @Mock
     private DonationService donationService;
 
+    @Autowired
+    MockMvc mockMvc;
+
     @Test
-    public void getAllHappyFlow(){
+    @WithMockUser(username = "ong1@gmail.com", password = "ana", roles = "ONG")
+    public void getAllHappyFlow() throws Exception {
         Page<Donation> donationPage
                 = new PageImpl<Donation>(Collections.emptyList(), PageRequest.of(1, 5), 5);
 
@@ -55,10 +68,15 @@ public class DonationControllerTests {
         when(donationService.findPaginated(PageRequest.of(0, 5))).thenReturn(donationPage);
         ModelAndView model = donationController.getAll(Optional.of(1), Optional.of(5));
         assertEquals(model.getModel().get("donationPage"), donationPage);
+
+        mockMvc.perform(get("/api/donation"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("donationList"));
     }
 
     @Test
-    public void getByIdHappyFlow(){
+    @WithMockUser(username = "ong1@gmail.com", password = "ana", roles = "ONG")
+    public void getByIdHappyFlow() throws Exception {
         Donation donation = Donation.builder()
                 .donationId(1)
                 .product("test")
@@ -74,6 +92,10 @@ public class DonationControllerTests {
 
         ModelAndView model = donationController.getById(1);
         assertNotNull(model.getModel().get("donation"));
+
+        mockMvc.perform(get("/api/donation/{id}", "13"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("donationDetails"));
     }
 
     @Test
@@ -152,10 +174,11 @@ public class DonationControllerTests {
         assertNotNull(response.getBody());
     }
     @Test
-    public void updateHappyFlow(){
-        Integer id = 1;
+    @WithMockUser(username = "ong1@gmail.com", password = "ana", roles = "ONG")
+    public void updateHappyFlow() throws Exception {
+        Integer id = 13;
         Donation donationUpdateDTO = Donation.builder()
-                .donationId(1)
+                .donationId(13)
                 .product("test")
                 .quantity(1.0)
                 .quantityMeasure(Measure.KG)
@@ -165,7 +188,7 @@ public class DonationControllerTests {
                 .build();
 
         Donation donation = Donation.builder()
-                .donationId(1)
+                .donationId(13)
                 .product("test")
                 .quantity(1.0)
                 .quantityMeasure(Measure.KG)
@@ -181,6 +204,10 @@ public class DonationControllerTests {
         ModelAndView model = donationController.update(id, donationUpdateDTO, result);
 
         assertNotNull(model.getModel().get("donation"));
+
+        mockMvc.perform(post("/api/donation/{id}", "13"))
+                .andExpect(status().isForbidden());
+                //.andExpect(view().name("donationDetails"));
     }
 
     @Test

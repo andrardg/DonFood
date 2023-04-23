@@ -55,7 +55,7 @@ public class SecurityJpaConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api", "/api/login", "/api/ong", "/api/ong/**", "/api/ong/edit/**").permitAll()
                 .requestMatchers("/logout","/webjars/**","/api/access_denied","/img/logo1.png","/img/logo2.png").permitAll()
-                .requestMatchers("/img/logo3.png", "/api/registerRestaurant", "/api/registerONG").permitAll()
+                .requestMatchers("/img/logo3.png", "/h2-console", "/api/registerRestaurant", "/api/registerONG").permitAll()
                 .requestMatchers("/api/restaurant","/api/restaurant/**", "/api/restaurant/edit/**", "/api/restaurant/delete/**").hasAuthority("ONG")
                 .requestMatchers("/api/donation", "/api/donation/**", "/api/donation/edit/**", "/api/donation/delete/**").hasAuthority("ONG")
                 .requestMatchers("/profile").hasAnyAuthority("ONG", "ADMIN", "RESTAURANT")
