@@ -76,10 +76,11 @@ public class AccountControllerTests {
                 .account(account)
                 .socialScore(4.0)
                 .build();
+        BindingResult result = mock(BindingResult.class);
+
         when(restaurantService.register(any())).thenReturn(restaurantResponseDTO);
-        ResponseEntity<RestaurantResponseDTO> response = accountController.registerRestaurant(any());
-        assertNotNull(response);
-        assertNotNull(response.getBody());
+        ModelAndView response = accountController.registerRestaurant(any(), result);
+        assertNotNull(response.getModel());
     }
 
     @Test

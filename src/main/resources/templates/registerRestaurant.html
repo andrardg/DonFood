@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>DonFood</title>
+
 
 
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
@@ -56,9 +57,60 @@
             </div>
         </nav>
     </div>
+</head>
 <body>
-<br><br><br>
-<h1 th:align="center">403 - Access denied</h1>
 
+<form method="POST" th:action="@{/api/registerRestaurant}" th:object="${restaurant}" th:align="center">
+
+    <div class="container" style="margin-top: 50px">
+        <div class="panel panel-default">
+            <div  class="panel-heading">
+                <h3 th:align="center">Register restaurant</h3>
+            </div>
+            <br>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-7 ">
+                        <div class="form-row">
+                            <label class="col-md-4">Email: </label>
+                            <input th:field="*{accountRequestDTO.email}" required/>
+                        </div>
+                        <br>
+
+                        <div class="form-row">
+                            <label class="col-md-4">Restaurant Name: </label>
+                            <input th:field="*{accountRequestDTO.fullName}" required/>
+                        </div>
+                        <br>
+
+                        <div class="form-row">
+                            <label class="col-md-4">Password: </label>
+                            <input th:field="*{accountRequestDTO.passwordDecoded}" type="password" required/>
+                        </div>
+                        <br>
+
+                        <div class="form-row">
+                            <label class="col-md-4">Fiscal Id Code: </label>
+                            <input th:field="*{fiscalIdCode}"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-1">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+<br><br><br>
+            <div class="panel-heading" th:align="center">
+                <a class="nav-link" th:href="@{'/api/registerOngForm'}">Register ONG</a>
+            </div>
+        </div>
+    </div>
+</form>
 </body>
 </html>

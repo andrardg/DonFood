@@ -30,7 +30,7 @@ public class Feedback {
     @NotNull
     private Order order;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "coment")
     @NotNull
     private String comment;
 

@@ -18,7 +18,7 @@ import java.util.*;
 @Service
 //@RequiredArgsConstructor
 @Slf4j
-@Profile("mysql")
+@Profile("oracle")
 public class AccountUserDetailsService implements UserDetailsService {
 
     @Autowired

@@ -24,6 +24,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.swing.*;
+
 @RestController
 @RequestMapping("")
 @Slf4j
@@ -40,9 +42,43 @@ public class AccountController {
         return ResponseEntity.ok().body(ongService.register(ongRequestDTO));
     }
 
+    @GetMapping("/api/registerRestaurantForm")
+    public ModelAndView registerRestaurantForm(){
+        if(!accountService.isAuthenticated()){
+            ModelAndView modelAndView = new ModelAndView("registerRestaurant");
+            AccountRequestDTO accountRequestDTO = new AccountRequestDTO();
+            RestaurantRequestDTO restaurantRequestDTO = new RestaurantRequestDTO();
+            restaurantRequestDTO.setAccountRequestDTO(accountRequestDTO);
+            modelAndView.addObject("restaurant", restaurantRequestDTO);
+            return modelAndView;
+        }
+        else{
+            ModelAndView modelAndView = new ModelAndView("redirect:/api");
+            return modelAndView;
+        }
+    }
     @PostMapping("/api/registerRestaurant")
-    public ResponseEntity<RestaurantResponseDTO> registerRestaurant(@RequestBody RestaurantRequestDTO restaurantRequestDTO){
-        return ResponseEntity.ok().body(restaurantService.register(restaurantRequestDTO));
+    public ModelAndView registerRestaurant(@Valid @ModelAttribute("restaurant") RestaurantRequestDTO restaurantRequestDTO,
+                                           BindingResult bindingResultRestaurant){
+        if (bindingResultRestaurant.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("registerRestaurant");
+            modelAndView.addObject("restaurant", restaurantRequestDTO);
+            modelAndView.addObject("errorMessage", "Invalid data");
+            return modelAndView;
+        }
+
+        try{
+            RestaurantResponseDTO restaurantResponseDTO = restaurantService.register(restaurantRequestDTO);
+            ModelAndView modelAndView = new ModelAndView("redirect:/login");
+            //JOptionPane.showMessageDialog(null, "Registered successfully", "InfoBox: " , JOptionPane.INFORMATION_MESSAGE);
+            return modelAndView;
+
+        }catch(Exception e){
+            ModelAndView modelAndView = new ModelAndView("registerRestaurant");
+            modelAndView.addObject("restaurant", restaurantRequestDTO);
+            modelAndView.addObject("errorMessage", e.getMessage());
+            return modelAndView;
+        }
     }
     @GetMapping("/api/login")
     public ModelAndView loginForm() {

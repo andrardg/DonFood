@@ -42,6 +42,7 @@ public class RestaurantService implements IRestaurantService {
         accountRequestDTO.setAccessRights(Right.RESTAURANT);
 
         restaurantRequestDTO.setAccountRequestDTO(accountRequestDTO);
+        restaurantRequestDTO.setSocialScore(0.0);
         Restaurant restaurant = RestaurantMapper.requestToRestaurant(restaurantRequestDTO);
         restaurant.setAccountRest(accountService.register(Right.RESTAURANT, restaurantRequestDTO.getAccountRequestDTO()));
         restaurantRepository.save(restaurant);

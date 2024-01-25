@@ -49,7 +49,7 @@
             <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/login'}" >Sign In</a>
           </li>&nbsp;
           <li class="nav-item" th:if="${#authentication ==null || #authentication.getPrincipal() == 'anonymousUser'}">
-            <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/api/registerRestaurant'}" >Register</a>
+            <a class="nav-link btn btn-primary text-white" type="button" th:href="@{'/api/registerRestaurantForm'}" >Register</a>
           </li>
         </ul>
       </div>

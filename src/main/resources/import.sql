@@ -1,7 +1,7 @@
-insert into account (email, access_rights, account_verified, created_at, full_name, password) VALUES ('restaurant5@gmail.com','2', '1', '2023-04-22 05:47:39.640312', 'ana', '$2a$10$dZvA1nxMNkSwfNJ/ndCF1OlRRMMQVmT1G3Rp9.IKNQJggc0TaMBW2');
-insert into account (email, access_rights, account_verified, created_at, full_name, password) VALUES ('restaurant6@gmail.com', '2', '1', '2023-04-22 05:47:39.640312', 'ana', '$2a$10$dZvA1nxMNkSwfNJ/ndCF1OlRRMMQVmT1G3Rp9.IKNQJggc0TaMBW2');
-insert into account (email, access_rights, account_verified, created_at, full_name, password) VALUES ('ong1@gmail.com', '1', '1', '2023-04-22 05:47:39.640312', 'ana', '$2a$10$dZvA1nxMNkSwfNJ/ndCF1OlRRMMQVmT1G3Rp9.IKNQJggc0TaMBW2');
-INSERT INTO restaurant (restaurant_id, fiscal_id_code, social_score, email) VALUES ('8', '1111', '4', 'restaurant5@gmail.com');
-INSERT INTO restaurant (restaurant_id, fiscal_id_code, social_score, email) VALUES ('9', '1111', '4', 'restaurant5@gmail.com');
-INSERT INTO donation (`donation_id`, `created_at`, `expiration_date`, `modified_at`, `pick_up_location`, `pick_up_time`, `product`, `quantity`, `quantity_measure`, `restaurant_id`) VALUES ('13', '2023-10-10 00:00:00.000000', '2023-10-10 00:00:00.000000', '2023-10-10 00:00:00.000000', 'Bucuresti', '2023-10-10 00:00:00.000000', 'cartofi', '50', '2', '8');
-INSERT INTO ong (`ong_id`, `address`, `nr_people_helping`, `email`) VALUES ('1', 'Iasi', '45', 'ong1@gmail.com');
+insert into account (email, access_rights, account_verified, created_at, full_name, password) VALUES ('restaurant5@gmail.com','2', '1', '20-DEC-2023 05:47:39.640312', 'ana', '$2a$10$dZvA1nxMNkSwfNJ/ndCF1OlRRMMQVmT1G3Rp9.IKNQJggc0TaMBW2');
+insert into account (email, access_rights, account_verified, created_at, full_name, password) VALUES ('restaurant6@gmail.com', '2', '1', '10-JAN-2024 05:47:39.640312', 'ana', '$2a$10$dZvA1nxMNkSwfNJ/ndCF1OlRRMMQVmT1G3Rp9.IKNQJggc0TaMBW2');
+insert into account (email, access_rights, account_verified, created_at, full_name, password) VALUES ('ong1@gmail.com', '1', '1', '23-APR-2023 05:47:39.640312', 'ana', '$2a$10$dZvA1nxMNkSwfNJ/ndCF1OlRRMMQVmT1G3Rp9.IKNQJggc0TaMBW2');
+INSERT INTO restaurant (fiscal_id_code, social_score, email) VALUES ('1111', '4', 'restaurant5@gmail.com');
+INSERT INTO restaurant (fiscal_id_code, social_score, email) VALUES ('1111', '4', 'restaurant5@gmail.com');
+INSERT INTO donation (created_at, expiration_date, modified_at, pick_up_location, pick_up_time, product, quantity, quantity_measure, restaurant_id) VALUES ('02-JAN-2024 01:00:00.000000', '02-JAN-2025 01:00:00.000000', '02-JAN-2024 01:00:00.000000', 'Bucuresti', '02-JAN-2024 01:00:00.000000', 'cartofi', '50', '2', '1');
+INSERT INTO ong (address, nr_people_helping, email) VALUES ('Iasi', '45', 'ong1@gmail.com');

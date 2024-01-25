@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Component
-@Profile("mysql")
+@Profile("oracle")
 public class DataLoader implements CommandLineRunner {
 
     private IAccountRepository accountRepository;

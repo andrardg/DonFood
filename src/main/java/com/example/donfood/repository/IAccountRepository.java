@@ -12,11 +12,17 @@ import java.util.Optional;
 
 public interface IAccountRepository extends JpaRepository<Account, String> {
     boolean existsByEmail(String email);
-    Account findByEmail(String email);
-    //@Modifying
-    //@Query(value = "delete from Account a where a.email = :email2")
-    //void deleteByEmail(@Param("email2") String email2);
+
+    //@Query(value = "CALL DECRIPTACCOUNTFINDBYEMAIL(:email);", nativeQuery = true)
+    @Query(value = "SELECT new com.example.donfood.model.Account(a.email, to_char(decriptare_parola(a.passwordEncoded)), a.fullName, a.accessRights, a.createdAt, a.accountVerified) \n" +
+            "    FROM Account a \n" +
+            "    where a.email = ?1")
+    Account findByEmail(@Param("email") String email);
+
     @Transactional
     void deleteByEmail(String email);
+    @Query(value = "SELECT new com.example.donfood.model.Account(a.email, to_char(decriptare_parola(a.passwordEncoded)), a.fullName, a.accessRights, a.createdAt, a.accountVerified) \n" +
+            "    FROM Account a \n" +
+            "            where a.fullName = ?1")
     List<Account> findByFullName(String fullName);
 }

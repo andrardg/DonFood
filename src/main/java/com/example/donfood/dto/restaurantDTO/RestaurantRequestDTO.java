@@ -2,13 +2,13 @@ package com.example.donfood.dto.restaurantDTO;
 
 import com.example.donfood.dto.accountDTO.AccountRequestDTO;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RestaurantRequestDTO {
 
     private Integer restaurantId;
