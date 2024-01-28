@@ -24,8 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.swing.*;
-
 @RestController
 @RequestMapping("")
 @Slf4j
@@ -129,7 +127,7 @@ public class AccountController {
         else{
             log.info("Not authenticated");
         }
-        ModelAndView view = new ModelAndView("redirect:/api/login");
+        ModelAndView view = new ModelAndView("redirect:/api");
         return view;
     }
 

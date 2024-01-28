@@ -85,8 +85,12 @@
       <td th:text="${restaurant.fiscalIdCode}">Fiscal ID Score</td>
       <td th:text="${restaurant.socialScore}">Social Score</td>
       <td><a href="#" th:href="@{'/api/restaurant/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-circle-info"></i></a></td>
-      <td><a href="#" th:href="@{'/api/restaurant/edit/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-pen"></i></a></td>
-      <td><a href="#" th:href="@{'/api/restaurant/delete/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-trash"></i></a></td>
+      <td><a href="#" th:if="${#authentication != null && #authentication.getAuthorities()[0].getAuthority()=='ADMIN'}"
+             th:href="@{'/api/restaurant/edit/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-pen"></i></a></td>
+      <td><a href="#" th:if="${#authentication != null && #authentication.getAuthorities()[0].getAuthority()=='ADMIN'}"
+             th:href="@{'/api/restaurant/delete/' + ${restaurant.restaurantId}}"><i class="fa-solid fa-trash"></i></a></td>
+
+
     </tr>
   </table>
 </div>

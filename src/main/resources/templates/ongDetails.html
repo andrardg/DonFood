@@ -70,8 +70,23 @@
             <br>
             <br>
           </div>
-          <div class="panel-body">
+          <div class="panel-body padding-left:15px">
+            <div class="row">
+              <div class="col-md-4">
+                <a href="#" th:href="@{'/api/ong/edit/' + ${ong.ongId}}"
+                   th:if="${#authentication != null && (ong.accountONG.email == #authentication.getName() || #authentication.getAuthorities()[0].getAuthority()=='ADMIN')}">Edit profile<i class="fa-solid fa-pen"></i>  </a>
+              </div>
+            </div>
+            <p></p>
+            <div class="row">
+              <div class="col-md-4">
+                <a href="#" th:href="@{'/api/ong/delete/' + ${ong.ongId}}"
+                   th:if="${#authentication != null && (ong.accountONG.email == #authentication.getName() || #authentication.getAuthorities()[0].getAuthority()=='ADMIN')}">Delete profile<i class="fa-solid fa-trash"></i></a>
+              </div>
+            </div>
+          </div>
 
+          <div class="panel-body">
             <div class="row">
               <div class="col-md-4">
                 <p>Email:</p>

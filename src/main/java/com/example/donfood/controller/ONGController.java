@@ -69,9 +69,9 @@ public class ONGController {
         //return ResponseEntity.ok().body(ongService.update(id, ongUpdateDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Integer id){
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable Integer id){
         ongService.delete(id);
-        return "Ok";
+        return new ModelAndView("redirect:" + "/logout");
     }
 }

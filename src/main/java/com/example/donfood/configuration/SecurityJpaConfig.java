@@ -62,6 +62,10 @@ public class SecurityJpaConfig {
                         "/api/registerRestaurant",
                         "/api/registerRestaurantForm",
                         "/api/registerONG",
+                        "/api/donation",
+                        "/api/donation/**",
+                        "/api/restaurant",
+                        "/api/restaurant/**",
                         "/logout",
                         "/webjars/**",
                         "/api/access_denied",
@@ -70,9 +74,9 @@ public class SecurityJpaConfig {
                         "/img/logo3.png",
                         "/h2-console"
                 ).permitAll()
-                .requestMatchers("/api/restaurant","/api/restaurant/**", "/api/restaurant/edit/**", "/api/restaurant/delete/**").hasAuthority("ONG")
-                .requestMatchers("/api/donation", "/api/donation/**", "/api/donation/edit/**", "/api/donation/delete/**").hasAuthority("ONG")
-                .requestMatchers("/profile").hasAnyAuthority("ONG", "ADMIN", "RESTAURANT")
+                .requestMatchers( "/api/restaurant/edit/**", "/api/restaurant/delete/**", "/api/donation/edit/**", "/api/donation/delete/**").hasAnyAuthority( "ADMIN", "RESTAURANT")
+                .requestMatchers(  "/api/ong/edit/**", "/api/ong/delete/**", "/api/order/edit/**", "/api/order/delete/**").hasAnyAuthority("ONG", "ADMIN")
+                .requestMatchers(  "/profile").hasAnyAuthority("ONG", "ADMIN", "RESTAURANT")
 
                 .and()
                 .formLogin()

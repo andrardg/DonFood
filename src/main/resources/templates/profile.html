@@ -61,12 +61,33 @@
 <h3 th:align="center">User email</h3>
 <p th:align="center" th:text="${#authentication.getName()}"></p>
 <br>
+
+<h3 th:align="center">User id</h3>
+<p th:align="center" th:text="${objectId}"></p>
+<br>
+
 <h3 th:align="center">User authorities</h3>
-<p th:align="center"  th:each="authority : ${#authentication.getAuthorities()}">
-  <span th:switch="${authority.getAuthority().startsWith('ROLE_')}">
+<p></p>
+<div th:align="center"  th:each="authority : ${#authentication.getAuthorities()}">
+  <!--<span th:switch="${authority.getAuthority().startsWith('ROLE_')}">
     <i th:case="true" th:text="${authority.getAuthority().replaceFirst('ROLE_', '')}"></i>
-    <i th:case="false" th:text="${authority.getAuthority()}"></i>
-  </span>
-</p>
+    -->
+  <i th:text="${authority.getAuthority()}"></i>
+  <br></br>
+  <div th:if="${authority !=null && authority.getAuthority() == 'ONG'}">
+      <a class="col" th:align="center" href="#" th:href="@{'/api/ong/edit/' + ${objectId}}">Edit profile<i class="fa-solid fa-pen"></i>  </a>
+      <a class="col" th:align="center" href="#" th:href="@{'/api/ong/delete/' + ${objectId}}">Delete profile<i class="fa-solid fa-trash"></i></a>
+  </div>
+  <div th:if="${authority!=null && authority.getAuthority() == 'RESTAURANT'}">
+      <a href="#" th:href="@{'/api/restaurant/edit/' + ${objectId}}">Edit profile<i class="fa-solid fa-pen"></i>  </a>
+      <a href="#" th:href="@{'/api/restaurant/delete/' + ${objectId}}">Delete profile<i class="fa-solid fa-trash"></i></a>
+
+  </div>
+  <!--<i th:case="false" th:text="${authority.getAuthority()}"></i>
+  </span>-->
+</div>
+<div>
+
+</div>
 </body>
 </html>

@@ -89,9 +89,9 @@ public class RestaurantController {
         return modelAndView;
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Integer id){
+    @GetMapping(value = "/delete/{id}")
+    public ModelAndView delete(@PathVariable Integer id){
         restaurantService.delete(id);
-        return "Ok";
+        return new ModelAndView("redirect:" + "/logout");
     }
 }
